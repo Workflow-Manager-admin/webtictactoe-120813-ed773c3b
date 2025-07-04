@@ -1,104 +1,352 @@
-/* CSS Variables for Theme Management */
+/* ---- BAMBOO/PARCHMENT TIC TAC TOE - DESIGN THEME ---- */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  --bamboo-highlight: #e3c598;
+  --bamboo-shadow: #ad8957;
+  --bg-parchment: #eadc9c;
+  --bg-parchment-dark: #c1a560;
+  --symbol-main: #68492d;
+  --symbol-shadow: #29210a;
+  --symbol-highlight: #f5ecd2;
+  --cell-gap: 14px;
+  --bamboo-thick: 18px;
+  --bamboo-medium: 13px;
+  --board-size: min(82vw, 440px);
+  --symbol-size: 2.8rem;
+  --shadow-board: 0 4px 24px #ad895729, 0 2px 0 #fff5;
+  --shadow-bamboo: 0 2px 8px #beaa7233, 0 0 4px #c1a56057;
+  --shadow-cell-hover: 0 0 0 5px #e3c59844;
+  --shadow-inset: 0 3px 17px #beaa7260 inset;
 }
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
-}
-
-.App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+/* Main app background */
+.bamboo-app-bg {
+  background: linear-gradient(140deg, var(--bg-parchment) 80%, var(--bg-parchment-dark) 100%);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  width: 100vw;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: var(--bg-secondary);
+/* Center content and max width */
+.container-center {
+  margin: 0 auto;
+  padding: 40px 12px 24px 12px;
+  max-width: 650px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
+  justify-content: flex-start;
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+/* Header/title */
+.bamboo-title {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 2.5rem;
+  color: var(--symbol-main);
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-shadow:
+    0 3px 0 var(--bg-parchment-dark),
+    0 1px 6px #29210a55,
+    0 0 2px var(--symbol-highlight),
+    0 2px 18px #ad895734;
+  margin-bottom: 10px;
+  margin-top: 18px;
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
+/* UI panel for controls */
+.bamboo-ui-panel {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 14px;
+}
+
+.mode-select-label {
+  font-family: Georgia, serif;
+  color: var(--symbol-main);
+  font-weight: 700;
+  font-size: 1.04rem;
+  margin-right: 2px;
+}
+
+.mode-select {
+  font-size: 1rem;
+  border: 2px solid var(--bamboo-shadow);
+  border-radius: 7px;
+  padding: 5px 11px 5px 11px;
+  background: linear-gradient(90deg, #f5ecd2, #eadc9c 83%);
+  font-family: inherit;
+  color: var(--symbol-main);
+  box-shadow: 1px 1px 0 #beaa7236;
+  margin-right: 3px;
+}
+
+.bamboo-btn {
+  background: linear-gradient(92deg, var(--bamboo-highlight), var(--bamboo-shadow) 91%);
+  border: 0;
   border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
+  color: #382c15;
+  font-weight: bold;
+  font-size: 1rem;
+  box-shadow: var(--shadow-bamboo);
+  padding: 8px 22px;
+  margin-left: 12px;
+  font-family: 'Cinzel', Georgia, serif;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background 0.12s, transform 0.13s;
+}
+.bamboo-btn:hover, .bamboo-btn:focus {
+  background: linear-gradient(92deg, var(--bamboo-shadow), var(--bamboo-highlight) 86%);
+  transform: translateY(-2px) scale(1.04);
+  outline: none;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+/* --- Board Container and Outer Frame --- */
+.bamboo-board-container {
+  width: var(--board-size);
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(125deg, #f5ecd2 90%, #c1a560 100%);
+  border-radius: 30px;
+  margin: 0 auto 18px auto;
+  box-shadow: var(--shadow-board), 0 0 0 3px var(--bamboo-shadow);
+  padding: var(--bamboo-thick);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
+/* Bamboo outer frame - simulated with thick shadowed border and rounded 'shadow rods' corners */
+.bamboo-outer-frame {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  border: var(--bamboo-thick) solid var(--bamboo-highlight);
+  box-shadow:
+    0 0 0 5px var(--bamboo-shadow),
+    0 6px 18px 3px #ad895788,
+    0 -4px 16px 3px #e3c59855 inset,
+    0 0 40px 12px #c1a56033;
+  z-index: 2;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* The game grid itself */
+.board-inner {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: none;
+  border-radius: 16px;
+  padding: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Main grid - CSS grid for the cells (3x3) with gap representing bamboo thickness */
+.bamboo-grid {
+  display: grid;
+  grid-gap: var(--cell-gap);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+/* The game cell - bamboo edge and 3D shadow engraved parchment */
+.cell {
+  background: linear-gradient(116deg, #f5ecd2 82%, #e3c598 100%);
+  border-radius: 12px;
+  box-shadow:
+    var(--shadow-inset),
+    0 0 1.5px 0 var(--bamboo-shadow) inset,
+    0 2px 10px #beaa7246;
+  border: var(--bamboo-medium) solid #e3c598;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--symbol-size);
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+  padding: 0;
+  transition: box-shadow 0.18s, border-color 0.19s;
+  min-height: 60px;
+  min-width: 60px;
+}
+.cell:focus,
+.cell:hover,
+.cell-focus {
+  border-color: #ad8957;
+  box-shadow:
+    0 0 0 7px #e3c59855,
+    0 3px 22px #beaa726a,
+    0 0 8px #f5ecd277;
+  z-index: 4;
+}
+
+.cell:disabled {
+  cursor: not-allowed;
+  background: linear-gradient(116deg, #e3c598 90%, #eadc9c 100%);
+  filter: brightness(0.99);
+  opacity: 0.85;
+}
+
+.cell-filled {
+  cursor: default;
+  opacity: 0.97;
+}
+
+/* Bamboo rods - grid lines (vertical & horizontal), rendered as background div overlays */
+.bamboo-v, .bamboo-h {
+  position: absolute;
+  background: linear-gradient(180deg, #e3c598 55%, #ad8957 100%);
+  border-radius: 14px;
+  box-shadow: var(--shadow-bamboo);
+  z-index: 10;
+  pointer-events: none;
+}
+.bamboo-v {
+  width: var(--bamboo-thick);
+  height: 84%;
+  top: 8%;
+  left: 32.6%;
+}
+.bamboo-v1 { left: 32.6%; }
+.bamboo-v2 { left: 65.3%; }
+.bamboo-h {
+  height: var(--bamboo-thick);
+  width: 84%;
+  left: 8%;
+  top: 32.7%;
+}
+.bamboo-h1 { top: 32.7%; }
+.bamboo-h2 { top: 65.2%; }
+
+/* --- Symbols (X, O) engraving style --- */
+.symbol {
+  width: 100%;
+  text-align: center;
+  user-select: none;
+  line-height: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.symbol-mark {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: clamp(2rem, 6vw, 3.7rem);
+  color: var(--symbol-main);
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-shadow:
+    1px 1px 0 var(--symbol-shadow),
+    0 2px 2px #eadc9c55,
+    -1.5px 4px 12px #68492d36,
+    0 0 0 var(--symbol-highlight),
+    1.5px 1.5px 0px var(--symbol-highlight);
+  filter: drop-shadow(0 -3px 8px #29210a55)
+          brightness(0.93);
+  /* Simulate pressed/engraved look */
+  transition: color 0.22s;
+}
+
+/* X and O can be slightly different, add highlights */
+.symbol-X {
+  color: var(--symbol-main);
+  text-shadow:
+    1.5px 1.5px 0px var(--symbol-shadow),
+    0 2px 2px #eadc9c39,
+    -1px 4px 12px #68492d39,
+    0 0 0 var(--symbol-highlight);
+}
+
+.symbol-O {
+  color: var(--symbol-main);
+  text-shadow:
+    1px 1px 2px var(--symbol-shadow),
+    0 2px 2px #eadc9c22,
+    -0.5px 2px 7px #68492d33,
+    2px 0px 0px var(--symbol-highlight);
+}
+
+/* --- Score Panel --- */
+.bamboo-score-panel {
+  margin: 18px 0 10px 0;
+  background: linear-gradient(89deg, #eadc9c 94%, #e3c598 100%);
+  border-radius: 12px;
+  box-shadow: 1px 2px 10px #c1a56033, 0px 0px 1.5px #ad8957cc;
+  border: 1.6px solid var(--bamboo-shadow);
+  font-family: 'Cinzel', Georgia, serif;
+  color: var(--symbol-main);
+  font-size: 1.08rem;
+  padding: 11px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.score-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.score-x, .score-o, .score-draw {
+  font-weight: 600;
+  margin-left: 17px;
+  margin-right: 7px;
+  font-size: 1.01rem;
+}
+.score-x { color: #473100; }
+.score-o { color: #68492d; }
+.score-draw { color: #ad8957; }
+
+.bamboo-status-message {
+  font-family: 'Cinzel', Georgia, serif;
+  margin: 11px 0 2px 0;
+  color: #68492d;
+  font-size: 1.18rem;
+  letter-spacing: 0.7px;
+  min-height: 28px;
+  text-shadow: 0 1px 0 #fffefb, 0 2px 6px #68492d22;
+}
+
+/* Footer */
+.bamboo-footer {
+  margin-top: 26px;
+  color: #68492d88;
+  font-family: Georgia, serif;
+  font-size: 0.99rem;
+  text-shadow: 0 1px 0 #f5ecd277;
+}
+@media (max-width: 650px) {
+  .bamboo-board-container {
+    width: 97vw;
+    min-width: 99vw;
+    box-shadow: var(--shadow-board), 0 0 0 2.1vw var(--bamboo-shadow);
+    min-height: 60vw;
+    padding: 3.7vw;
   }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
+@media (max-width: 480px) {
+  .container-center {
+    padding: 12px 1vw 10px 1vw;
+  }
+  .bamboo-score-panel {
+    padding: 6px 2vw;
+    font-size: 0.97rem;
+  }
+  .bamboo-board-container {
+    min-width: 94vw;
+    padding: 2.3vw;
   }
 }
